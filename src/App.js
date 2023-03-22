@@ -37,11 +37,10 @@ function App() {
         <h2>Create your task</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-control">
-            <label htmlFor="title">What do you want to do?</label>
+            <label htmlFor="title">Task title: </label>
             <input
               type="text"
               name="title"
-              placeholder="task title"
               //get what the user typed
               onChange={(e) => setTitle(e.target.value)}
               value={title}
@@ -66,7 +65,7 @@ function App() {
         </form>
       </div>
       <div className="list-toDo">
-        <h2>Task list:</h2>
+        <h2>Task list</h2>
         {
           toDo.length === 0 && <p>There are not tasks!</p>
         }
