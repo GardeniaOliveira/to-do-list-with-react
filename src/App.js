@@ -13,7 +13,19 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(title)
+
+    //send to api
+    const toDo = {
+      id: Math.random(),
+      title,
+      time,
+      done: false,
+    }
+    console.log(toDo);
+
+    //to clean the input
+    setTitle("")
+    setTime("")
   };
   return (
     <div className="App">
@@ -33,10 +45,23 @@ function App() {
               //get what the user typed
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-
               required
             />
           </div>
+
+          <div className="form-control">
+            <label htmlFor="time">Duration:</label>
+            <input
+              type="text"
+              name="time"
+              placeholder="duration in hours"
+              //get what the user typed
+              onChange={(e) => setTime(e.target.value)}
+              value={time}
+              required
+            />
+          </div>
+
           <button type="submit" >CREATE</button>
         </form>
       </div>
