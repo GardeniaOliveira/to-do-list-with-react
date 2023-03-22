@@ -1,7 +1,7 @@
 
 import "./App.css";
 import { useState, useEffect } from "react";
-import { BsTrash, BsBookMarckCheck, BsBookMarckCheckFill } from "react-icons/bs";
+import { BsTrash, BsCircle, BsCircleFill } from "react-icons/bs";
 
 const API = "http://localhost:5000";
 
@@ -11,7 +11,26 @@ function App() {
   const [toDo, setToDo] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+
+      const res = await fetch(`${API}/todo`)
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((err) => console.error(err))
+
+      setLoading(false);
+
+      setToDo(res)
+
+
+    };
+    loadData();
+
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     //send to api
@@ -21,7 +40,19 @@ function App() {
       time,
       done: false,
     }
-    console.log(toDo);
+
+
+
+    await fetch(`${API}/todo`, {
+      method: 'POST',
+      body: JSON.stringify(toDo),
+      headers: {
+        "content-type": "application/json",
+      }
+    });
+
+    //get what was before and update with the new task
+    setToDo((prevState) => [...prevState, toDo]);
 
     //to clean the input
     setTitle("")
@@ -66,9 +97,21 @@ function App() {
       </div>
       <div className="list-toDo">
         <h2>Task list</h2>
-        {
-          toDo.length === 0 && <p>There are not tasks!</p>
-        }
+        {toDo.length === 0 && <p>There are not tasks!</p>}
+        {toDo.map((task) => (
+          <div className="toDo" key={task.id}>
+            <p className={toDo.done ? "toDo-done" : "toDo"}>{task.title}</p>
+            <p>{task.time}</p>
+            <div className="actions">
+              <span>
+                {!toDo.done ? <BsCircle /> : <BsCircleFill />}
+              </span>
+              <BsTrash />
+            </div>
+          </div>
+        ))}
+
+
       </div>
     </div>
   );

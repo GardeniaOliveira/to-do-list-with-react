@@ -55,3 +55,10 @@ button:hover {
   border: 1px solid transparent;
   font-weight: bold;
 }
+
+.toDo {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 0 2em;
+}
