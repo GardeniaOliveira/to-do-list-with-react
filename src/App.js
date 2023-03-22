@@ -58,6 +58,29 @@ function App() {
     setTitle("")
     setTime("")
   };
+
+  const handleDelete = async (id) => {
+    await fetch(`${API}/todo`, {
+      method: 'DELETE',
+    })
+    setToDo((prevState) => prevState.filter((toDo) => toDo.id !== id));
+  }
+
+  const handleEdit = async (toDo) => {
+    //change from done to not done
+    toDo.done = !toDo.done;
+
+    const data = await fetch(`${API}/todo/${toDo.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(toDo),
+      headers: {
+        "content-type": "application/json",
+      }
+    })
+    setToDo((prevState) =>
+      prevState.map((toDo) => (toDo.id === data.id ? (toDo = data) : toDo)));
+  }
+
   return (
     <div className="App">
       <div className="toDo-header">
@@ -98,15 +121,15 @@ function App() {
       <div className="list-toDo">
         <h2>Task list</h2>
         {toDo.length === 0 && <p>There are not tasks!</p>}
-        {toDo.map((task) => (
-          <div className="toDo" key={task.id}>
-            <p className={toDo.done ? "toDo-done" : "toDo"}>{task.title}</p>
-            <p>{task.time}</p>
+        {toDo.map((toDo) => (
+          <div className="toDo" key={toDo.id}>
+            <h3 className={toDo.done ? "toDo-done" : "toDo"}>{toDo.title}</h3>
+            <p className="time">{toDo.time}</p>
             <div className="actions">
-              <span>
+              <span onClick={() => handleEdit(toDo)}>
                 {!toDo.done ? <BsCircle /> : <BsCircleFill />}
               </span>
-              <BsTrash />
+              <BsTrash onClick={() => handleDelete(toDo.id)} />
             </div>
           </div>
         ))}

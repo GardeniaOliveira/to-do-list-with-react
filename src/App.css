@@ -55,10 +55,26 @@ button:hover {
   border: 1px solid transparent;
   font-weight: bold;
 }
-
+.list-toDo {
+  padding: 0 1em 2em;
+  margin: 1em 2em;
+}
 .toDo {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  margin: 0 2em;
+  align-items: center;
+  padding: 1em 0;
+  border-bottom: 1px solid #4444;
+}
+
+.toDo-done {
+  text-decoration: line-through;
+  font-style: italic;
+  color: #dfdfdf;
+}
+
+.toDo svg {
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-right: 1em;
 }
