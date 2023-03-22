@@ -60,9 +60,10 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`${API}/todo`, {
+    await fetch(`${API}/todo/${id}`, {
       method: 'DELETE',
-    })
+    });
+
     setToDo((prevState) => prevState.filter((toDo) => toDo.id !== id));
   }
 
@@ -123,8 +124,12 @@ function App() {
         {toDo.length === 0 && <p>There are not tasks!</p>}
         {toDo.map((toDo) => (
           <div className="toDo" key={toDo.id}>
-            <h3 className={toDo.done ? "toDo-done" : "toDo"}>{toDo.title}</h3>
-            <p className="time">{toDo.time}</p>
+            <div className="toDo-title">
+              <h3 className={toDo.done ? "toDo-done" : "toDo"}>{toDo.title}</h3>
+            </div>
+            <div className="toDo-time">
+              <p className="time">{toDo.time}</p>
+            </div>
             <div className="actions">
               <span onClick={() => handleEdit(toDo)}>
                 {!toDo.done ? <BsCircle /> : <BsCircleFill />}
