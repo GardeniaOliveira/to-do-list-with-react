@@ -1,7 +1,13 @@
 
 import "./App.css";
 import { useState, useEffect } from "react";
-import { BsTrash, BsCircle, BsCircleFill } from "react-icons/bs";
+
+
+
+import Header from "./components/Header";
+import Form from "./components/Form";
+import ListTask from "./components/ListTask";
+
 
 const API = "http://localhost:5000";
 
@@ -84,63 +90,30 @@ function App() {
 
   return (
     <div className="App">
-      <div className="toDo-header">
-        <h1>To do List</h1>
-      </div>
 
-      <div className="form-toDo">
-        <h2>Create your task</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-control">
-            <label htmlFor="title">Task title: </label>
-            <input
-              type="text"
-              name="title"
-              //get what the user typed
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              required
-            />
-          </div>
+      <Header />
 
-          <div className="form-control">
-            <label htmlFor="time">Duration:</label>
-            <input
-              type="text"
-              name="time"
-              placeholder="duration in hours"
-              //get what the user typed
-              onChange={(e) => setTime(e.target.value)}
-              value={time}
-              required
-            />
-          </div>
+      <Form
+        titleForm="Create your task"
+        handleSubmit={handleSubmit}
+        setTitle={setTitle}
+        title={title}
+        setTime={setTime}
+        time={time}
 
-          <button type="submit" >CREATE</button>
-        </form>
-      </div>
-      <div className="list-toDo">
-        <h2>Task list</h2>
-        {toDo.length === 0 && <p>There are not tasks!</p>}
-        {toDo.map((toDo) => (
-          <div className="toDo" key={toDo.id}>
-            <div className="toDo-title">
-              <h3 className={toDo.done ? "toDo-done" : "toDo"}>{toDo.title}</h3>
-            </div>
-            <div className="toDo-time">
-              <p className="time">{toDo.time}</p>
-            </div>
-            <div className="actions">
-              <span onClick={() => handleEdit(toDo)}>
-                {!toDo.done ? <BsCircle /> : <BsCircleFill />}
-              </span>
-              <BsTrash onClick={() => handleDelete(toDo.id)} />
-            </div>
-          </div>
-        ))}
+      />
+
+      <ListTask
+        titleList="Task list"
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        toDo={toDo}
+      />
 
 
-      </div>
+
+
+
     </div>
   );
 }
